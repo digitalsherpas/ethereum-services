@@ -23,6 +23,7 @@ app.use(allowCrossDomain);
 app.use(jsonParser);
 
 app.post('/api/events', (req, res) => {
+  console.log('hello');
   ethController.createEvent(req, res);
 });
 

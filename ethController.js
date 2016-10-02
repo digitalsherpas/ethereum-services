@@ -2,12 +2,22 @@ const createSvc = require('./services/createSvc');
 const buySvc = require('./services/buySvc');
 const verifySvc = require('./services/verifySvc');
 const readSvc = require('./services/readSvc');
-const dbController = require('./database/dbController.js');
+const rp = require('request-promise');
+const config = require('./config.js');
 
 const controller = {
   createEvent: (req, res) => {
     createSvc.createContract(req).then((returnObj) => {
-      dbController.createEvent(returnObj, res);
+      rp({
+        method: 'POST',
+        url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
+        body: returnObj,
+        json: true
+      }).then(() => {
+        res.sendStatus(200);
+      }).catch((err) => {
+        res.status(500).send(err);
+      })
     });
   },
   buyTicket: (req, res) => {
@@ -20,25 +30,30 @@ const controller = {
     verifySvc.verifyAttendee(req, res);
   },
   findEvent: (req, res) => {
-    dbController.findEvent(req)
+    rp({
+      method: 'GET',
+      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/findEvent`,
+      qs: req.params,
+      json: true,
+    })
     .then((event) => {
       const eventObj = readSvc.readEvent(event.contractAddress);
-      res.status(200).send(eventObj);
-    })
-    .catch((err) => {
+      res.status(200).send(obj);
+    }).catch((err) => {
       res.status(500).send(err);
     });
-  },
+    },
   getAllEvents: (req, res) => {
-    dbController.getAllEvents(req)
+    rp({
+      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`
+    })
     .then((events) => {
       const resultArray = events.map(event => readSvc.readEvent(event.contractAddress));
       res.status(200).send(resultArray);
-    })
-    .catch((err) => {
+    }).catch((err) => {
       res.status(500).send(err);
     });
-  },
-};
+    },
+  };
 
 module.exports = controller;
