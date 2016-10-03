@@ -9,7 +9,6 @@ const controller = {
   createEvent: (req, res) => {
     return new Promise ((fulfill, reject) => {
       createSvc.createContract(req).then((returnObj) => {
-        console.log(`${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`);
         rp({
           method: 'POST',
           url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
@@ -33,7 +32,6 @@ const controller = {
     verifySvc.verifyAttendee(req, res);
   },
   findEvent: (req, res) => {
-    console.log(req.query.eventName);
     rp({
       method: 'GET',
       url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/findEvent`,
