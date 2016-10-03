@@ -2,13 +2,25 @@ const createSvc = require('./services/createSvc');
 const buySvc = require('./services/buySvc');
 const verifySvc = require('./services/verifySvc');
 const readSvc = require('./services/readSvc');
-const dbController = require('./database/dbController.js');
+const rp = require('request-promise');
+const config = require('./config.js');
 
 const controller = {
   createEvent: (req, res) => {
-    createSvc.createContract(req).then((returnObj) => {
-      dbController.createEvent(returnObj, res);
-    });
+    return new Promise ((fulfill, reject) => {
+      createSvc.createContract(req).then((returnObj) => {
+        rp({
+          method: 'POST',
+          url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
+          body: returnObj,
+          json: true
+        }).then((event) => {
+          fulfill(event);
+        }).catch((err) => {
+          reject(err);
+        })
+      });
+    })
   },
   buyTicket: (req, res) => {
     buySvc.buyTicket(req, res);
@@ -20,25 +32,33 @@ const controller = {
     verifySvc.verifyAttendee(req, res);
   },
   findEvent: (req, res) => {
-    dbController.findEvent(req)
+    rp({
+      method: 'GET',
+      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/findEvent`,
+      qs: { eventName: req.query.eventName },
+      json: true,
+    })
     .then((event) => {
       const eventObj = readSvc.readEvent(event.contractAddress);
       res.status(200).send(eventObj);
-    })
-    .catch((err) => {
+    }).catch((err) => {
       res.status(500).send(err);
     });
-  },
+    },
   getAllEvents: (req, res) => {
-    dbController.getAllEvents(req)
-    .then((events) => {
-      const resultArray = events.map(event => readSvc.readEvent(event.contractAddress));
-      res.status(200).send(resultArray);
+    rp({
+      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`
     })
-    .catch((err) => {
+    .then((events) => {
+      const parsedEvents = JSON.parse(events);
+      const resultArray = parsedEvents.map(event => {
+        return readSvc.readEvent(event.contractAddress);
+      });
+      res.status(200).send(resultArray);
+    }).catch((err) => {
       res.status(500).send(err);
     });
-  },
-};
+    },
+  };
 
 module.exports = controller;

@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "testrpc": "node ./testrpc/testrpc.js",    "gethtestnet": "geth --testnet --fast --cache=512 --rpc console"
-
+    "testrpc": "node ./testrpc/testrpc.js",
+    "gethtestnet": "geth --testnet --fast --cache=512 --rpc console"
   },
   "repository": {
     "type": "git",
@@ -33,11 +33,8 @@
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "pg": "^6.1.0",
-    "pg-hstore": "^2.3.2",
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
-    "sequelize": "^3.24.3",
     "solc": "^0.4.2",
     "web3": "^0.17.0-beta"
   }
