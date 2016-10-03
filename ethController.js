@@ -7,18 +7,21 @@ const config = require('./config.js');
 
 const controller = {
   createEvent: (req, res) => {
-    createSvc.createContract(req).then((returnObj) => {
-      rp({
-        method: 'POST',
-        url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
-        body: returnObj,
-        json: true
-      }).then(() => {
-        res.sendStatus(200);
-      }).catch((err) => {
-        res.status(500).send(err);
-      })
-    });
+    return new Promise ((fulfill, reject) => {
+      createSvc.createContract(req).then((returnObj) => {
+        console.log(`${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`);
+        rp({
+          method: 'POST',
+          url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
+          body: returnObj,
+          json: true
+        }).then((event) => {
+          fulfill(event);
+        }).catch((err) => {
+          reject(err);
+        })
+      });
+    })
   },
   buyTicket: (req, res) => {
     buySvc.buyTicket(req, res);
@@ -30,15 +33,16 @@ const controller = {
     verifySvc.verifyAttendee(req, res);
   },
   findEvent: (req, res) => {
+    console.log(req.query.eventName);
     rp({
       method: 'GET',
       url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/findEvent`,
-      qs: req.params,
+      qs: { eventName: req.query.eventName },
       json: true,
     })
     .then((event) => {
       const eventObj = readSvc.readEvent(event.contractAddress);
-      res.status(200).send(obj);
+      res.status(200).send(eventObj);
     }).catch((err) => {
       res.status(500).send(err);
     });
@@ -48,7 +52,10 @@ const controller = {
       url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`
     })
     .then((events) => {
-      const resultArray = events.map(event => readSvc.readEvent(event.contractAddress));
+      const parsedEvents = JSON.parse(events);
+      const resultArray = parsedEvents.map(event => {
+        return readSvc.readEvent(event.contractAddress);
+      });
       res.status(200).send(resultArray);
     }).catch((err) => {
       res.status(500).send(err);

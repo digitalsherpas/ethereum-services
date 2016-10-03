@@ -5,6 +5,7 @@ const web3 = web3Connection.web3;
 
 const readSvc = {
   readEvent: (eventContractAddress) => {
+    console.log('yo')
     const eventContractInstance = web3.eth.contract(contractHelper.contractObj).at(eventContractAddress);
     const eventObj = {
       organizer: eventContractInstance.organizer.toString(),

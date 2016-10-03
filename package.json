@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "testrpc": "node ./testrpc/testrpc.js",    "gethtestnet": "geth --testnet --fast --cache=512 --rpc console"
-
+    "testrpc": "node ./testrpc/testrpc.js",
+    "gethtestnet": "geth --testnet --fast --cache=512 --rpc console"
   },
   "repository": {
     "type": "git",
