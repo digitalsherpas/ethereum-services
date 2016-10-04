@@ -50,7 +50,6 @@ const controller = {
       url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
     })
     .then((events) => {
-      console.log('EVENTS AREEEEE:', events);
       const parsedEvents = JSON.parse(events);
       const resultArray = parsedEvents.map((event) => {
         return readSvc.readEvent(event.contractAddress);

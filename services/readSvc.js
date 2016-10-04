@@ -7,9 +7,9 @@ const readSvc = {
   readEvent: (eventContractAddress) => {
     const eventContractInstance = web3.eth.contract(contractHelper.contractObj).at(eventContractAddress);
     const eventObj = {
-      organizer: eventContractInstance.organizer.toString(),
+      organizer: eventContractInstance.organizer().toString(),
       numAttendees: eventContractInstance.numAttendees().toString(),
-      attendeesPaid: eventContractInstance.attendeesPaid(), // TODO: Parse this mapping variable correctly
+      attendeesPaid: eventContractInstance.attendeesPaid().toString(), // TODO: Parse this mapping variable correctly
       quota: eventContractInstance.quota().toString(),
       price: eventContractInstance.price().toString(),
       eventName: eventContractInstance.eventName().toString(),
