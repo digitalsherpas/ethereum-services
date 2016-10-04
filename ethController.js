@@ -7,20 +7,20 @@ const config = require('./config.js');
 
 const controller = {
   createEvent: (req, res) => {
-    return new Promise ((fulfill, reject) => {
+    return new Promise((fulfill, reject) => {
       createSvc.createContract(req).then((returnObj) => {
         rp({
           method: 'POST',
           url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
           body: returnObj,
-          json: true
+          json: true,
         }).then((event) => {
           fulfill(event);
         }).catch((err) => {
           reject(err);
-        })
+        });
       });
-    })
+    });
   },
   buyTicket: (req, res) => {
     buySvc.buyTicket(req, res);
@@ -44,21 +44,22 @@ const controller = {
     }).catch((err) => {
       res.status(500).send(err);
     });
-    },
+  },
   getAllEvents: (req, res) => {
     rp({
-      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`
+      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
     })
     .then((events) => {
+      console.log('EVENTS AREEEEE:', events);
       const parsedEvents = JSON.parse(events);
-      const resultArray = parsedEvents.map(event => {
+      const resultArray = parsedEvents.map((event) => {
         return readSvc.readEvent(event.contractAddress);
       });
       res.status(200).send(resultArray);
     }).catch((err) => {
       res.status(500).send(err);
     });
-    },
-  };
+  },
+};
 
 module.exports = controller;
