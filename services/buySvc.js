@@ -10,10 +10,12 @@ const buySvc = {
     const fromAddress = req.body.fromAddress;
     const name = req.body.name;
     const eventContractInstance = web3.eth.contract(contractHelper.contractObj).at(contractAddress);
+
     const opts = {
       from: fromAddress,
-      value: req.body.price,
+      value: Number(req.body.price), // TODO: type checking
     };
+
     if (req.body.gas) {
       opts.gas = req.body.gas;
     }
