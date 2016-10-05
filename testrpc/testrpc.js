@@ -7,3 +7,5 @@ server.listen(process.env.BLOCKCHAIN_PORT || config.BLOCKCHAIN_PORT, (err, block
   console.log('Account Addresses:')
   console.log(Object.keys(blockchain.accounts));
 });
+
+module.exports = server;
