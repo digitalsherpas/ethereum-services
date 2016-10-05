@@ -11,7 +11,7 @@ const controller = {
       createSvc.createContract(req).then((returnObj) => {
         rp({
           method: 'POST',
-          url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
+          url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
           body: returnObj,
           json: true,
         }).then((event) => {
@@ -34,7 +34,7 @@ const controller = {
   findEvent: (req, res) => {
     rp({
       method: 'GET',
-      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/findEvent`,
+      url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/findEvent`,
       qs: { eventName: req.query.eventName },
       json: true,
     })
@@ -47,7 +47,7 @@ const controller = {
   },
   getAllEvents: (req, res) => {
     rp({
-      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
+      url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
     })
     .then((events) => {
       // const parsedEvents = JSON.parse(events);
