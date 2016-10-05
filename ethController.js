@@ -47,7 +47,7 @@ const controller = {
   },
   getEventsFromDB: (req, res) => {
     rp({
-      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`
+      url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
     })
     .then((events) => {
       res.status(200).send(events);
