@@ -16,21 +16,13 @@ const createSvc = {
     const createDateTime = (new Date()).getTime();
     //
     const description = req.body.description;
-    console.log(description);
     const addressLine1 = req.body.addressLine1;
-    console.log(addressLine1);
     const addressLine2 = req.body.addressLine2;
-    console.log(addressLine2);
     const city = req.body.city;
-    console.log(city);
     const state = req.body.state;
-    console.log(state);
     const zipPostalCode = req.body.zipPostalCode;
-    console.log(zipPostalCode);
     const country = req.body.country;
-    console.log(country);
     const image = req.body.image;
-    console.log(image);
     const eventContractInstance = web3.eth.contract(contractHelper.contractObj).new(eventName, price, quota, createDateTime, startDateTime, endDateTime, description, addressLine1, addressLine2, city, state, zipPostalCode, country, image, {
       data: contractHelper.bytecode,
       gas: 2000000,
