@@ -28,7 +28,6 @@
     "ethereumjs-testrpc": "^2.2.7",
     "nock": "^8.0.0",
     "nodemon": "^1.10.2",
-    "sinon": "^1.17.6",
     "supertest": "^2.0.0"
   },
   "dependencies": {
