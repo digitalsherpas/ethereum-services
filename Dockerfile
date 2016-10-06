@@ -8,9 +8,9 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 RUN npm install
 RUN npm install -g scrypt; exit 0
-RUN npm install -g scrypt
+RUN npm install -g scrypt; exit 0
 RUN npm install -g secp256k1; exit 0
-RUN npm install -g secp256k1
+RUN npm install -g secp256k1; exit 0
 
 # Bundle app source
 COPY . /usr/src/app
