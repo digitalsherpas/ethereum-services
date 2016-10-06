@@ -39,8 +39,8 @@ const controller = {
       json: true,
     })
     .then((event) => {
-      const eventObj = readSvc.readEvent(event.eventContractAddress);
-      res.status(200).send(eventObj);
+      // const eventObj = readSvc.readEvent(event.eventContractAddress);
+      res.status(200).send(event);
     }).catch((err) => {
       res.status(500).send(err);
     });
