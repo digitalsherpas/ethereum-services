@@ -14,7 +14,16 @@ const createSvc = {
     const startDateTime = new Date(req.body.startDateTime).getTime();
     const endDateTime = new Date(req.body.endDateTime).getTime();
     const createDateTime = (new Date()).getTime();
-    const eventContractInstance = web3.eth.contract(contractHelper.contractObj).new(eventName, price, quota, createDateTime, startDateTime, endDateTime, {
+    //
+    const description = req.body.description;
+    const addressLine1 = req.body.addressLine1;
+    const addressLine2 = req.body.addressLine2;
+    const city = req.body.city;
+    const state = req.body.state;
+    const zipPostalCode = req.body.zipPostalCode;
+    const country = req.body.country;
+    const image = req.body.image;
+    const eventContractInstance = web3.eth.contract(contractHelper.contractObj).new(eventName, price, quota, createDateTime, startDateTime, endDateTime, description, addressLine1, addressLine2, city, state, zipPostalCode, country, image, {
       data: contractHelper.bytecode,
       gas: 2000000,
       // gasPrice: 500000,
@@ -35,6 +44,14 @@ const createSvc = {
             createDateTime: createDateTime,
             startDateTime: startDateTime,
             endDateTime: endDateTime,
+            description: description,
+            addressLine1: addressLine1,
+            addressLine2: addressLine2,
+            city: city,
+            state: state,
+            zipPostalCode: zipPostalCode,
+            country: country,
+            image: image,
           });
           // res.send('Contract address is: ' + contract.address);
         }
