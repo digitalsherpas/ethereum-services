@@ -64,13 +64,13 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
     PurchaseTicket(msg.sender, msg.value, numAttendees);
   }
 
-  function () payable {
+  function() payable {
     if (numAttendees > quota) {
       ExceedQuota(numAttendees, quota);
       throw; // throw ensures funds will be returned
     }
 
-    if (msg.value < price) { //
+    if (msg.value < price) {
       InsufficientEther(msg.value, price);
       throw;
     }

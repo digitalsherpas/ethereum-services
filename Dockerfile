@@ -7,10 +7,11 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json /usr/src/app/
 RUN npm install
-RUN npm install --save scrypt; exit 0
-RUN npm install --save scrypt; exit 0
-RUN npm install --save secp256k1; exit 0
-RUN npm install --save secp256k1; exit 0
+RUN apt-get install software-properties-common
+RUN add-apt-repository -y ppa:ethereum/ethereum
+RUN add-apt-repository -y ppa:ethereum/ethereum-dev
+RUN apt-get update
+RUN apt-get install ethereum
 
 # Bundle app source
 COPY . /usr/src/app
