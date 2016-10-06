@@ -26,8 +26,9 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
   event CreateEvent(address _organizer, uint _numAttendees, uint _quota, uint _price, string _eventName, uint _eventCreateDateTime, uint _eventStartDateTime, uint _eventEndDateTime, string _description); // If this event is too long, it will not compile because it is too big
   event ExceedQuota(uint _numAttendees, uint _quota);
 
-  function Event(string _eventName, uint _price, uint _quota, uint _eventCreateDateTime, uint _eventStartDateTime, uint _eventEndDateTime, string _description, string _addressLine1, string _addressLine2, string _city, string _state, string _zipPostalCode, string _country, string _image) { //TODO: add params to customize the event
-    organizer = msg.sender;
+  function Event(address _organizer, string _eventName, uint _price, uint _quota, uint _eventCreateDateTime, uint _eventStartDateTime, uint _eventEndDateTime, string _description, string _addressLine1, string _addressLine2, string _city, string _state, string _zipPostalCode, string _country, string _image) { //TODO: add params to customize the event
+    /*organizer = msg.sender;*/
+    organizer = _organizer;
     eventName = _eventName;
     price = _price;
     quota = _quota;
@@ -60,6 +61,23 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
 
     attendeesPaid[msg.sender] = _name;
     if (!organizer.send(msg.value)) throw; //send ether but catch error
+    numAttendees++;
+    PurchaseTicket(msg.sender, msg.value, numAttendees);
+  }
+
+  function() payable {
+    if (numAttendees > quota) {
+      ExceedQuota(numAttendees, quota);
+      throw; // throw ensures funds will be returned
+    }
+
+    if (msg.value < price) {
+      InsufficientEther(msg.value, price);
+      throw;
+    }
+
+    if (!organizer.send(msg.value)) throw; //send ether but catch error
+    attendeesPaid[msg.sender] = "anonymous";
     numAttendees++;
     PurchaseTicket(msg.sender, msg.value, numAttendees);
   }
