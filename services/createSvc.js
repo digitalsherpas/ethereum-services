@@ -1,7 +1,10 @@
+const Promise = require('bluebird');
 const contractHelper = require('../contracts/contractHelpers.js');
 const web3Connection = require('../web3.js');
 const loggers = require('../loggers/events.js');
-const Promise = require('bluebird');
+const keys = require('../keys.js');
+
+const hostWalletAddress = keys.ETH_HOST_WALLET;
 
 const web3 = web3Connection.web3;
 
@@ -14,7 +17,6 @@ const createSvc = {
     const startDateTime = new Date(req.body.startDateTime).getTime();
     const endDateTime = new Date(req.body.endDateTime).getTime();
     const createDateTime = (new Date()).getTime();
-    //
     const description = req.body.description;
     const addressLine1 = req.body.addressLine1;
     const addressLine2 = req.body.addressLine2;
@@ -23,11 +25,11 @@ const createSvc = {
     const zipPostalCode = req.body.zipPostalCode;
     const country = req.body.country;
     const image = req.body.image;
-    const eventContractInstance = web3.eth.contract(contractHelper.contractObj).new(eventName, price, quota, createDateTime, startDateTime, endDateTime, description, addressLine1, addressLine2, city, state, zipPostalCode, country, image, {
+    const eventContractInstance = web3.eth.contract(contractHelper.contractObj).new(senderAddress, eventName, price, quota, createDateTime, startDateTime, endDateTime, description, addressLine1, addressLine2, city, state, zipPostalCode, country, image, {
       data: contractHelper.bytecode,
       gas: 2000000,
       // gasPrice: 500000,
-      from: senderAddress,
+      from: hostWalletAddress,
     }, (err, contract) => {
       if (!err) {
         // NOTE: The callback will fire twice!
