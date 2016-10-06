@@ -5,7 +5,6 @@ const web3 = web3Connection.web3;
 
 const readSvc = {
   readEvent: (eventContractAddress) => {
-    console.log('in read service');
     const eventContractInstance = web3.eth.contract(contractHelper.contractObj).at(eventContractAddress);
     const eventObj = {
       organizer: eventContractInstance.organizer().toString(),
@@ -19,7 +18,6 @@ const readSvc = {
       eventEndDateTime: new Date(parseInt(eventContractInstance.eventEndDateTime().toString(), 10)),
       eventContractAddress: eventContractAddress.toString(),
     };
-    console.log('in read svc, done reading contract');
     return eventObj;
   },
 };

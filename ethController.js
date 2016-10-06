@@ -7,7 +7,6 @@ const config = require('./config.js');
 
 const controller = {
   createEvent: (req, res) => {
-    console.log('in ethcontroller about to send request')
     return new Promise((fulfill, reject) => {
       createSvc.createContract(req).then((returnObj) => {
         rp({
@@ -16,7 +15,6 @@ const controller = {
           body: returnObj,
           json: true,
         }).then((event) => {
-          console.log('in ethcontroller and received result');
           fulfill(event);
         }).catch((err) => {
           reject(err);
