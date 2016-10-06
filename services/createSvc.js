@@ -52,6 +52,8 @@ const createSvc = {
             zipPostalCode: zipPostalCode,
             country: country,
             image: image,
+            price: price,
+            quota: quota,
           });
           // res.send('Contract address is: ' + contract.address);
         }

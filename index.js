@@ -23,8 +23,10 @@ app.use(allowCrossDomain);
 app.use(jsonParser);
 
 app.post('/api/events', (req, res) => {
+  console.log('in eth services route');
   ethController.createEvent(req, res)
   .then((event) => {
+    console.log('in eth services route and done');
     res.status(200).send(event);
   })
   .catch((err) => {

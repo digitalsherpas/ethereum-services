@@ -7,6 +7,7 @@ const config = require('./config.js');
 
 const controller = {
   createEvent: (req, res) => {
+    console.log('in ethcontroller about to send request')
     return new Promise((fulfill, reject) => {
       createSvc.createContract(req).then((returnObj) => {
         rp({
@@ -15,6 +16,7 @@ const controller = {
           body: returnObj,
           json: true,
         }).then((event) => {
+          console.log('in ethcontroller and received result');
           fulfill(event);
         }).catch((err) => {
           reject(err);
@@ -39,7 +41,7 @@ const controller = {
       json: true,
     })
     .then((event) => {
-      const eventObj = readSvc.readEvent(event.contractAddress);
+      const eventObj = readSvc.readEvent(event.eventContractAddress);
       res.status(200).send(eventObj);
     }).catch((err) => {
       res.status(500).send(err);
@@ -50,11 +52,11 @@ const controller = {
       url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
     })
     .then((events) => {
-      const parsedEvents = JSON.parse(events);
-      const resultArray = parsedEvents.map((event) => {
-        return readSvc.readEvent(event.contractAddress);
-      });
-      res.status(200).send(resultArray);
+      // const parsedEvents = JSON.parse(events);
+      // const resultArray = parsedEvents.map((event) => {
+      //   return readSvc.readEvent(event.contractAddress);
+      // });
+      res.status(200).send(events);
     }).catch((err) => {
       res.status(500).send(err);
     });
