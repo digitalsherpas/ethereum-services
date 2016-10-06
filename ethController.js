@@ -39,7 +39,7 @@ const controller = {
       json: true,
     })
     .then((event) => {
-      const eventObj = readSvc.readEvent(event.contractAddress);
+      const eventObj = readSvc.readEvent(event.eventContractAddress);
       res.status(200).send(eventObj);
     }).catch((err) => {
       res.status(500).send(err);
@@ -50,11 +50,11 @@ const controller = {
       url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
     })
     .then((events) => {
-      const parsedEvents = JSON.parse(events);
-      const resultArray = parsedEvents.map((event) => {
-        return readSvc.readEvent(event.contractAddress);
-      });
-      res.status(200).send(resultArray);
+      // const parsedEvents = JSON.parse(events);
+      // const resultArray = parsedEvents.map((event) => {
+      //   return readSvc.readEvent(event.contractAddress);
+      // });
+      res.status(200).send(events);
     }).catch((err) => {
       res.status(500).send(err);
     });
