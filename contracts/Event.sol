@@ -47,6 +47,23 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
     CreateEvent(organizer, numAttendees, quota, price, eventName, eventCreateDateTime, eventStartDateTime, eventEndDateTime, description); // If this event is too long, it will not compile because it is too big
   }
 
+  function() payable {
+    if (numAttendees > quota) {
+      ExceedQuota(numAttendees, quota);
+      throw; // throw ensures funds will be returned
+    }
+
+    if (msg.value < price) {
+      InsufficientEther(msg.value, price);
+      throw;
+    }
+
+    if (!organizer.send(msg.value)) throw; //send ether but catch error
+    attendeesPaid[msg.sender] = "anonymous";
+    numAttendees++;
+    PurchaseTicket(msg.sender, msg.value, numAttendees);
+  }
+
   // payable keyword is necessary to allow for transfer of ether.
   function buyTicket(string _name) payable {
     if (numAttendees > quota) {

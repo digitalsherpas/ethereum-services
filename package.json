@@ -7,7 +7,7 @@
     "start": "node index.js",
     "test": "./node_modules/.bin/mocha tests/ethSvcs.js",
     "testrpc": "node ./testrpc/testrpc.js",
-    "gethtestnet": "geth --testnet --fast --cache=512 --rpc console"
+    "gethtestnet": "geth --testnet --cache=512 --rpc console"
   },
   "repository": {
     "type": "git",
