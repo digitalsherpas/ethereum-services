@@ -54,30 +54,13 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
       throw; // throw ensures funds will be returned
     }
 
-    if (msg.value < price) { //
+    if (msg.value < price) {
       InsufficientEther(msg.value, price);
       throw;
     }
 
     attendeesPaid[msg.sender] = _name;
     if (!organizer.send(msg.value)) throw; //send ether but catch error
-    numAttendees++;
-    PurchaseTicket(msg.sender, msg.value, numAttendees);
-  }
-
-  function() payable {
-    if (numAttendees > quota) {
-      ExceedQuota(numAttendees, quota);
-      throw; // throw ensures funds will be returned
-    }
-
-    if (msg.value < price) {
-      InsufficientEther(msg.value, price);
-      throw;
-    }
-
-    if (!organizer.send(msg.value)) throw; //send ether but catch error
-    attendeesPaid[msg.sender] = "anonymous";
     numAttendees++;
     PurchaseTicket(msg.sender, msg.value, numAttendees);
   }
@@ -94,19 +77,19 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
     }
   }
 
-  // function refundTicket(address recipient, uint amount) public {
-  //   if (msg.sender != organizer) { return; }
-  //   if (attendeesPaid[recipient] == amount) {
-  //     address myAddress = this;
-  //     if (myAddress.balance >= amount) {
-  //       if (!recipient.send(amount)) throw;
-  //       RefundTicket(recipient, amount);
-  //       attendeesPaid[recipient] = 0;
-  //       numAttendees--;
-  //     }
-  //   }
-  //   return;
-  // }
+  function refundTicket(address recipient, uint amount) public {
+    if (msg.sender != organizer) { return; }
+    if (attendeesPaid[recipient] == amount) {
+      address myAddress = this;
+      if (myAddress.balance >= amount) {
+        if (!recipient.send(amount)) throw;
+        RefundTicket(recipient, amount);
+        attendeesPaid[recipient] = 0;
+        numAttendees--;
+      }
+    }
+    return;
+  }
 
   function destroy() {
     if (msg.sender == organizer) { // without this funds could be locked in the contract forever!
