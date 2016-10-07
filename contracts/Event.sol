@@ -82,23 +82,6 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
     PurchaseTicket(msg.sender, msg.value, numAttendees);
   }
 
-  function() payable {
-    if (numAttendees > quota) {
-      ExceedQuota(numAttendees, quota);
-      throw; // throw ensures funds will be returned
-    }
-
-    if (msg.value < price) {
-      InsufficientEther(msg.value, price);
-      throw;
-    }
-
-    if (!organizer.send(msg.value)) throw; //send ether but catch error
-    attendeesPaid[msg.sender] = "anonymous";
-    numAttendees++;
-    PurchaseTicket(msg.sender, msg.value, numAttendees);
-  }
-
   function getNumAttendees() constant returns (uint){
     return numAttendees;
   }
