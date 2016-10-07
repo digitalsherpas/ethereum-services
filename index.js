@@ -33,7 +33,6 @@ app.post('/api/events', (req, res) => {
   });
 });
 
-
 app.post('/api/tickets', (req, res) => {
   ethController.buyTicket(req, res);
 });
@@ -52,8 +51,12 @@ app.get('/api/findEvent/', (req, res) => {
   ethController.findEvent(req, res);
 });
 
-app.get('/api/getAllEvents/', (req, res) => {
-  ethController.getAllEvents(req, res);
+app.get('/api/eventsList/', (req, res) => {
+  if (req.query.readFromDB) {
+    ethController.getEventsFromDB(req, res);
+  } else {
+    ethController.getEventsFromBlockchain(req, res);
+  }
 });
 
 const server = app.listen(config.ETH_SERVER_PORT, () => {
