@@ -4,9 +4,9 @@ const web3Connection = require('../web3.js');
 const loggers = require('../loggers/events.js');
 const keys = require('../keys.js');
 
-const hostWalletAddress = keys.ETH_HOST_WALLET;
-
 const web3 = web3Connection.web3;
+
+const hostWalletAddress = process.env.ETH_NETWORK === 'testnet' ? keys.ETH_HOST_WALLET : web3.eth.accounts[0];
 
 const createSvc = {
   createContract: req => new Promise((fulfill, reject) => {
