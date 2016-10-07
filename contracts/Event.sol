@@ -59,7 +59,6 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
     }
 
     if (!organizer.send(msg.value)) throw; //send ether but catch error
-    attendeesPaid[msg.sender] = "anonymous";
     numAttendees++;
     PurchaseTicket(msg.sender, msg.value, numAttendees);
   }
@@ -94,19 +93,19 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
     }
   }
 
-  // function refundTicket(address recipient, uint amount) public {
-  //   if (msg.sender != organizer) { return; }
-  //   if (attendeesPaid[recipient] == amount) {
-  //     address myAddress = this;
-  //     if (myAddress.balance >= amount) {
-  //       if (!recipient.send(amount)) throw;
-  //       RefundTicket(recipient, amount);
-  //       attendeesPaid[recipient] = 0;
-  //       numAttendees--;
-  //     }
-  //   }
-  //   return;
-  // }
+  function refundTicket(address recipient, uint amount) public {
+    if (msg.sender != organizer) { return; }
+    if (attendeesPaid[recipient] == amount) {
+      address myAddress = this;
+      if (myAddress.balance >= amount) {
+        if (!recipient.send(amount)) throw;
+        RefundTicket(recipient, amount);
+        attendeesPaid[recipient] = 0;
+        numAttendees--;
+      }
+    }
+    return;
+  }
 
   function destroy() {
     if (msg.sender == organizer) { // without this funds could be locked in the contract forever!
