@@ -29,7 +29,7 @@ const createSvc = {
       data: contractHelper.bytecode,
       gas: 2000000,
       // gasPrice: 500000,
-      from: hostWalletAddress,
+      from: hostWalletAddress || senderAddress,
     }, (err, contract) => {
       if (!err) {
         // NOTE: The callback will fire twice!
