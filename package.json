@@ -4,10 +4,11 @@
   "description": "Ethereum Services",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "test": "./node_modules/.bin/mocha tests/ethSvcs.js",
     "testrpc": "node ./testrpc/testrpc.js",
-    "gethtestnet": "geth --testnet --cache=512 --rpc console"
+    "gethtestnet": "geth --testnet --cache=512 --rpc console",
+    "geth": "geth --cache=512 --rpc console"
   },
   "repository": {
     "type": "git",
