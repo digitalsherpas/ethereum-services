@@ -8,7 +8,9 @@
     "test": "./node_modules/.bin/mocha tests/ethSvcs.js",
     "testrpc": "node ./testrpc/testrpc.js",
     "gethtestnet": "geth --testnet --cache=512 --rpc console",
+    "cron": "node cron.js",
     "geth": "geth --cache=512 --rpc console"
+    "concurrent": "concurrently \"npm start\" \"npm run cron\""
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,6 @@
   },
   "homepage": "https://github.com/digitalsherpas/ethereum-services#readme",
   "devDependencies": {
-    "concurrently": "^3.1.0",
     "eslint": "^3.7.0",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.16.0",
@@ -35,8 +36,10 @@
   "dependencies": {
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
+    "concurrently": "^3.1.0",
     "ethereumjs-testrpc": "^2.2.7",
     "express": "^4.14.0",
+    "node-cron": "^1.1.2",
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
     "scrypt": "^6.0.3",

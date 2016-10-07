@@ -17,6 +17,7 @@ const controller = {
         }).then((event) => {
           fulfill(event);
         }).catch((err) => {
+          console.log(err);
           reject(err);
         });
       });
