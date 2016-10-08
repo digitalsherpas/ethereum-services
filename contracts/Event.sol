@@ -73,22 +73,8 @@ contract Event {  // can be killed, so the owner gets sent the money in the end
     if (bytes(attendeesPaid[_attendee]).length > 0) {
       return attendeesPaid[_attendee];
     } else {
-      return "";
+      return "Not Verified";
     }
-  }
-
-  function refundTicket(address recipient, uint amount) public {
-    if (msg.sender != organizer) { return; }
-    if (attendeesPaid[recipient] == amount) {
-      address myAddress = this;
-      if (myAddress.balance >= amount) {
-        if (!recipient.send(amount)) throw;
-        RefundTicket(recipient, amount);
-        attendeesPaid[recipient] = 0;
-        numAttendees--;
-      }
-    }
-    return;
   }
 
   function destroy() {

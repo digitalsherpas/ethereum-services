@@ -56,6 +56,7 @@ const createSvc = {
             image: image,
             price: price,
             quota: quota,
+            hostname: req.body.username
           });
           // res.send('Contract address is: ' + contract.address);
         }

@@ -59,6 +59,14 @@ app.get('/api/eventsList/', (req, res) => {
   }
 });
 
+app.get('/api/HostEventsList/', (req, res) => {
+  if (req.query.readFromDB) {
+    ethController.getHostEventsFromDB(req, res);
+  } else {
+    ethController.getEventsFromBlockchain(req, res);
+  }
+});
+
 const server = app.listen(config.ETH_SERVER_PORT, () => {
   console.log('Running on', config.ETH_SERVER_PORT);
 });

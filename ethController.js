@@ -58,6 +58,19 @@ const controller = {
       res.status(500).send(err);
     })
   },
+  getHostEventsFromDB: (req, res) => {
+    rp({
+      url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllHostEvents`,
+      qs: {
+        hostName: req.query.hostName,
+      },
+    })
+    .then((events) => {
+      res.status(200).send(events);
+    }).catch((err) => {
+      res.status(500).send(err);
+    })
+  },
   getEventsFromBlockchain: (req, res) => {
     rp({
       url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`
