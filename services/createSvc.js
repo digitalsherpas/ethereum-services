@@ -24,6 +24,8 @@ const createSvc = {
     const state = req.body.state;
     const zipPostalCode = req.body.zipPostalCode;
     const country = req.body.country;
+    const latitude = req.body.latitude;
+    const longitude = req.body.longitude;
     const image = req.body.image;
     const eventContractInstance = web3.eth.contract(contractHelper.contractObj).new(senderAddress, eventName, price, quota, createDateTime, startDateTime, endDateTime, description, addressLine1, addressLine2, city, state, zipPostalCode, country, image, {
       data: contractHelper.bytecode,
@@ -53,6 +55,8 @@ const createSvc = {
             state: state,
             zipPostalCode: zipPostalCode,
             country: country,
+            latitude: latitude,
+            longitude: longitude,
             image: image,
             price: price,
             quota: quota,
