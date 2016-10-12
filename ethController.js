@@ -12,7 +12,7 @@ const controller = {
         rp({
           method: 'POST',
           url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
-          body: returnObj,
+          body: req.body,
           json: true,
         }).then((event) => {
           fulfill(event);
