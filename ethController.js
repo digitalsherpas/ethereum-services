@@ -12,6 +12,7 @@ const controller = {
         console.log('Coordinates are:', req.body.latitude, req.body.longitude)
         returnObj.latitude = req.body.latitude;
         returnObj.longitude = req.body.longitude;
+        console.log('returnObj is:', returnObj);
         rp({
           method: 'POST',
           url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
