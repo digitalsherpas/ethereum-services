@@ -79,12 +79,12 @@ const controller = {
     .then((events) => {
       const parsedEvents = JSON.parse(events);
       const resultArray = parsedEvents.map((event) => {
-      return readSvc.readEvent(event.contractAddress);
+        return readSvc.readEvent(event.contractAddress);
       });
       res.status(200).send(resultArray);
     }).catch((err) => {
       res.status(500).send(err);
-    })
+    });
   },
 };
 

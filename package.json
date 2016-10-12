@@ -4,12 +4,12 @@
   "description": "Ethereum Services",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "test": "./node_modules/.bin/mocha tests/ethSvcs.js",
     "testrpc": "node ./testrpc/testrpc.js",
-    "gethtestnet": "geth --testnet --cache=512 --rpc console",
+    "gethtestnet": "geth --testnet --fast --cache=512 --rpc console",
     "cron": "node cron.js",
-    "geth": "geth --cache=512 --rpc console"
+    "geth": "geth --cache=512 --rpc console",
     "concurrent": "concurrently \"npm start\" \"npm run cron\""
   },
   "repository": {

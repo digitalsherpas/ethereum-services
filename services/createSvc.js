@@ -10,11 +10,11 @@ let createSvc = null;
 
 const connectNetwork = () => {
   try {
-    hostWalletAddress = process.env.ETH_NETWORK === 'testnet' ? keys.ETH_HOST_WALLET : web3.eth.accounts[0];
+    hostWalletAddress = process.env.ETH_NETWORK === 'testnet' || process.env.ETH_NETWORK === 'ethereum' ? keys.ETH_HOST_WALLET : web3.eth.accounts[0];
     createSvc = {
       createContract: req => new Promise((fulfill, reject) => {
         const senderAddress = req.body.senderAddress || web3.eth.accounts[0];
-        const price = req.body.ticketPrice;
+        const price = req.body.price;
         const eventName = req.body.eventName;
         const quota = req.body.quota;
         const startDateTime = new Date(req.body.startDateTime).getTime();
@@ -32,7 +32,7 @@ const connectNetwork = () => {
           data: contractHelper.bytecode,
           gas: 2000000,
           // gasPrice: 500000,
-          from: hostWalletAddress,
+          from: hostWalletAddress || senderAddress,
         }, (err, contract) => {
           if (!err) {
             // NOTE: The callback will fire twice!
@@ -60,6 +60,7 @@ const connectNetwork = () => {
                 price: price,
                 quota: quota,
                 numAttendees: 0,
+                hostname: req.body.username
               });
               // res.send('Contract address is: ' + contract.address);
             }
