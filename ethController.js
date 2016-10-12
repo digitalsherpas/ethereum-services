@@ -9,10 +9,13 @@ const controller = {
   createEvent: (req, res) => {
     return new Promise((fulfill, reject) => {
       createSvc.createContract(req).then((returnObj) => {
+        console.log('Coordinates are:', req.body.latitude, req.body.longitude)
+        returnObj.latitude = req.body.latitude;
+        returnObj.longitude = req.body.longitude;
         rp({
           method: 'POST',
           url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
-          body: req.body,
+          body: returnObj,
           json: true,
         }).then((event) => {
           fulfill(event);
