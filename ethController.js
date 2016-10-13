@@ -15,7 +15,7 @@ const controller = {
         console.log('returnObj is:', returnObj);
         rp({
           method: 'POST',
-          url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
+          url: `${config.DB_SERVER_URL}:${config.DB_SERVER_PORT}/db/createEvent`,
           body: returnObj,
           json: true,
         }).then((event) => {
@@ -52,7 +52,7 @@ const controller = {
   },
   getEventsFromDB: (req, res) => {
     rp({
-      url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
+      url: `${config.DB_SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
       qs: {
         eventName: req.query.eventName,
       },
@@ -65,7 +65,7 @@ const controller = {
   },
   getHostEventsFromDB: (req, res) => {
     rp({
-      url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllHostEvents`,
+      url: `${config.DB_SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllHostEvents`,
       qs: {
         hostName: req.query.hostName,
       },
@@ -78,7 +78,7 @@ const controller = {
   },
   getEventsFromBlockchain: (req, res) => {
     rp({
-      url: `${config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`
+      url: `${config.DB_SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`
     })
     .then((events) => {
       const parsedEvents = JSON.parse(events);
