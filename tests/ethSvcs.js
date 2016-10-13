@@ -39,7 +39,7 @@ describe('Create Service', function() {
       endDateTime,
     };
 
-    nock(`${config.SERVER_URL}:${config.DB_SERVER_PORT}`)
+    nock(`${config.DB_SERVER_URL}:${config.DB_SERVER_PORT}`)
     .post('/db/createEvent')
     .reply(200, {
       eventName: reqObj.eventName,

@@ -4,14 +4,14 @@ const readSvc = require('./services/readSvc.js');
 
 module.exports = () => {
   rp({
-    url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
+    url: `${config.DB_SERVER_URL}:${config.DB_SERVER_PORT}/db/getAllEvents`,
   }).then((events) => {
     const parsedEvents = JSON.parse(events);
     const resultArray = parsedEvents.map(event => readSvc.readEvent(event.eventContractAddress));
     resultArray.forEach((event) => {
       rp({
         method: 'POST',
-        url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/updateEvent`,
+        url: `${config.DB_SERVER_URL}:${config.DB_SERVER_PORT}/db/updateEvent`,
         body: event,
         json: true,
       });
