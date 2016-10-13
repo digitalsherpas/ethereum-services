@@ -36,7 +36,7 @@ const controller = {
   findEvent: (req, res) => {
     rp({
       method: 'GET',
-      url: `${process.env.DB_SERVER_URL || config.SERVER_URL}:${config.DB_SERVER_PORT}/db/findEvent`,
+      url: `${config.DB_SERVER_URL}:${config.DB_SERVER_PORT}/db/findEvent`,
       qs: { eventName: req.query.eventName },
       json: true,
     })
